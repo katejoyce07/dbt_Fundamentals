@@ -30,6 +30,7 @@ models:
           - unique
           - not_null
       - name: status
+        description: "{{ doc('order_status') }}"
         tests:
           - accepted_values:
               values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
@@ -39,3 +40,20 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
+
+  - name: stg_stripe_payments
+    description: "Staging model for Stripe payments."
+    columns:
+      - name: payment_id
+        description: "Unique identifier for the payment."
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "Associated order for the payment."
+        tests:
+          - not_null
+      - name: amount
+        description: "Payment amount in dollars."
+        tests:
+          - not_null
